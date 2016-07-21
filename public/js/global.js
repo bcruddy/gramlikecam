@@ -12,32 +12,59 @@ cam = {
 
     letterStore: {
         ' ': ' ',
-        'a': ['@', '/\\'],
+        'a': ['a', 'á', 'å', 'à', 'â', 'ä', 'ã', 'ā'],
         'b': ['b'],
-        'c': ['c'],
+        'c': ['a', 'ç', 'ć', 'č'],
         'd': ['d'],
-        'e': ['e'],
+        'e': ['e', 'è', 'é', 'ê', 'ë', 'ē', 'ė', 'ę'],
         'f': ['f'],
         'g': ['g'],
         'h': ['h'],
-        'i': ['1'],
+        'i': ['i', 'î', 'ï', 'í', 'ī', 'į', 'ì', '1'],
         'j': ['j'],
         'k': ['k'],
-        'l': ['l'],
+        'l': ['l', 'ł'],
         'm': ['m'],
-        'n': ['n'],
-        'o': ['o'],
+        'n': ['n', 'ñ', 'ń'],
+        'o': ['ô', 'ö', 'ò', 'ó', 'ø', 'ō', 'õ'],
         'p': ['p'],
         'q': ['q'],
         'r': ['r'],
-        's': ['$'],
+        's': ['s', 'ś', 'š'],
         't': ['t'],
-        'u': ['u'],
-        'v': ['\\/'],
-        'w': ['\\/\\/'],
+        'u': ['u', 'û', 'ü', 'ù', 'ú', 'ū'],
+        'v': ['v'],
+        'w': ['w'],
         'x': ['x'],
-        'y': ['y'],
-        'z': ['z']
+        'y': ['y', 'ÿ'],
+        'z': ['z', 'ž', 'ź', 'ż'],
+        'A': ['A','À', 'Á', 'Â', 'Ä', 'Ã', 'Å', 'Ā'],
+        'B': ['B', '8'],
+        'C': ['C', 'Ç', 'Ć', 'Č'],
+        'D': ['D'],
+        'E': ['E','È', 'É', 'Ê', 'Ë', 'Ē', 'Ė', 'Ę', '3'],
+        'F': ['F'],
+        'G': ['G'],
+        'H': ['H'],
+        'I': ['I', '1', 'Î', 'Ï', 'Í', 'Ī', 'Į', 'Ì'],
+        'J': ['J'],
+        'K': ['K'],
+        'L': ['L', 'Ł'],
+        'M': ['M'],
+        'N': ['N', 'Ñ', 'Ń'],
+        'O': ['O', '0', 'Ô', 'Ö', 'Ò', 'Ó', 'Ø', 'Ō', 'Õ'],
+        'P': ['P'],
+        'Q': ['Q'],
+        'R': ['R'],
+        'S': ['S', 'Ś', 'Š', '5'],
+        'T': ['T', '7'],
+        'U': ['U', 'Û', 'Ü', 'Ù', 'Ú', 'Ū'],
+        'V': ['V'],
+        'W': ['W'],
+        'X': ['X'],
+        'Y': ['Y', 'Ÿ'],
+        'Z': ['Z', 'Ž', 'Ź', 'Ż'],
+        '.': ['•']
     },
 
     init: function () {
@@ -56,16 +83,22 @@ cam = {
         var text = raw.split('');
         var store = this.letterStore;
 
+        var isCaps = true;
         var last = '';
         var result = [];
-        var isCaps = true;
 
         for (var i = 0; i < text.length; i++) {
             var current = text[i];
             var prev = result[i - 1];
 
-            if (current === ' ') { // alternate caps every other word
+            if (current === ' ')
                 isCaps = !isCaps;
+
+            if (cam.utils.isLetter(current)) {
+                if (isCaps)
+                    current = current.toUpperCase();
+                else
+                    current = current.toLowerCase();
             }
 
             if (current === prev) {
@@ -78,32 +111,13 @@ cam = {
                 val = cam.utils.sample(store[current]); // if we have a match in our letter store, choose a random value from the array
             }
 
-            val = this.setCase(isCaps, val);
-
             last = val;
             result.push(val);
         }
 
-
         return result.filter(function (letter) {
             return letter !== ' ';
         }).join('');
-    },
-
-    setCase: function (isCaps, val) {
-        if (cam.utils.isLetter(val)) {
-            try {
-                if (isCaps) {
-                    val = val.toUpperCase();
-                }
-                else {
-                    val = val.toLowerCase();
-                }
-            }
-            catch (ex) {}
-        }
-
-        return val;
     }
 };
 
