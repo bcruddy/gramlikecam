@@ -1,0 +1,13 @@
+/*
+    Panther's color guide:
+        blue: #028FD2
+        black: #000000
+        silver: #DDDDDF
+*/
+
+body { font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-color: #028FD2; }
+.jumbotron { background-color: #DDDDDF; }
+
+a { color: #00B7FF; }
+
+textarea.cam-text { min-height: 300px; }
