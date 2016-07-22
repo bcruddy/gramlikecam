@@ -93,6 +93,9 @@ cam = {
             if (current === ' ')
                 isCaps = !isCaps;
 
+            if (text[i - 1] === '.')
+                isCaps = true;
+
             if (cam.utils.isLetter(current)) {
                 if (isCaps)
                     current = current.toUpperCase();
@@ -139,7 +142,7 @@ cam.utils = {
 
     isBetween: function (val, upper, lower) {
 
-        return val > lower && val < upper;
+        return val >= lower && val <= upper;
     }
 };
 
