@@ -5,9 +5,9 @@
         silver: #DDDDDF
 */
 
-body { font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-color: #028FD2; }
-.jumbotron { background-color: #DDDDDF; }
+body { font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-color: #028FD2; color: #DDDDDF; }
+a { color: #000000; }
+.jumbotron { color: #000000; }
 
-a { color: #00B7FF; }
 
 textarea.cam-text { min-height: 150px; }

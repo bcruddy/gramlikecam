@@ -148,7 +148,7 @@ glc = {
         }
 
         return result.join('');
-    },
+    }
 };
 
 glc.utils = {
