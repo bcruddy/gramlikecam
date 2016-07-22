@@ -14,7 +14,7 @@ cam = {
         ' ': ' ',
         'a': ['a', 'á', 'å', 'à', 'â', 'ä', 'ã', 'ā'],
         'b': ['b'],
-        'c': ['a', 'ç', 'ć', 'č'],
+        'c': ['c', 'ç', 'ć', 'č'],
         'd': ['d'],
         'e': ['e', 'è', 'é', 'ê', 'ë', 'ē', 'ė', 'ę'],
         'f': ['f'],
@@ -89,7 +89,6 @@ cam = {
 
         for (var i = 0; i < text.length; i++) {
             var current = text[i];
-            var prev = result[i - 1];
 
             if (current === ' ')
                 isCaps = !isCaps;
@@ -101,7 +100,7 @@ cam = {
                     current = current.toLowerCase();
             }
 
-            if (current === prev) {
+            if (current === result[result.length - 1]) {
                 result.push(last);
                 continue;
             }
