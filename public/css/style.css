@@ -10,4 +10,4 @@ body { font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-colo
 
 a { color: #00B7FF; }
 
-textarea.cam-text { min-height: 200px; }
+textarea.cam-text { min-height: 150px; }

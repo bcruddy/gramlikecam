@@ -1,8 +1,8 @@
 'use strict';
 
-var cam = window.cam || {};
+var glc = window.glc || {};
 
-cam = {
+glc = {
     debug: true,
     log: function () {
         if (this.debug && window.console && console.log) {
@@ -20,13 +20,13 @@ cam = {
         'f': ['f'],
         'g': ['g'],
         'h': ['h'],
-        'i': ['i', 'î', 'ï', 'í', 'ī', 'į', 'ì', '1'],
+        'i': ['i', 'î', 'ï', 'í', 'ī', 'į', 'ì'],
         'j': ['j'],
         'k': ['k'],
         'l': ['l', 'ł'],
         'm': ['m'],
         'n': ['n', 'ñ', 'ń'],
-        'o': ['ô', 'ö', 'ò', 'ó', 'ø', 'ō', 'õ'],
+        'o': ['o', 'ô', 'ö', 'ò', 'ó', 'ø', 'ō', 'õ'],
         'p': ['p'],
         'q': ['q'],
         'r': ['r'],
@@ -68,18 +68,25 @@ cam = {
     },
 
     init: function () {
+        var $english = $('#english');
+        var $camified = $('#camified');
+
         $('#camify').click(function () {
-            var $input = $('#cam-input');
-            var $output = $('#cam-output');
+            var raw = $english.val();
+            var output = glc.camify(raw);
 
-            var raw = $input.val();
-            var output = cam.process(raw);
+            $camified.val(output);
+        });
 
-            $output.val(output);
+        $('#un-camify').click(function () {
+            var raw = $camified.val();
+            var output = glc.english(raw);
+
+            $english.val(output);
         });
     },
 
-    process: function (raw) {
+    camify: function (raw) {
         var text = raw.split('');
         var store = this.letterStore;
 
@@ -96,7 +103,7 @@ cam = {
             if (text[i - 1] === '.')
                 isCaps = true;
 
-            if (cam.utils.isLetter(current)) {
+            if (glc.utils.isLetter(current)) {
                 if (isCaps)
                     current = current.toUpperCase();
                 else
@@ -110,7 +117,7 @@ cam = {
 
             var val = current;
             if (store.hasOwnProperty(current)) {
-                val = cam.utils.sample(store[current]); // if we have a match in our letter store, choose a random value from the array
+                val = glc.utils.sample(store[current]); // if we have a match in our letter store, choose a random value from the array
             }
 
             last = val;
@@ -120,10 +127,31 @@ cam = {
         return result.filter(function (letter) {
             return letter !== ' ';
         }).join('');
-    }
+    },
+
+    english: function (raw) {
+        var text = raw.split('');
+        var store = this.letterStore;
+
+        var result = [];
+        for (var i = 0; i < text.length; i++) {
+            var current = text[i];
+
+            var val = '';
+            for (var letter in store) {
+                if (store[letter].indexOf(current) !== -1) {
+                    val = letter;
+                }
+            }
+
+            result.push(val);
+        }
+
+        return result.join('');
+    },
 };
 
-cam.utils = {
+glc.utils = {
     sample: function (arr) {
         if (!this.isArray(arr)) {  }
 
@@ -143,7 +171,15 @@ cam.utils = {
     isBetween: function (val, upper, lower) {
 
         return val >= lower && val <= upper;
+    },
+
+    isUpper: function (val) {
+        return this.isBetween(val, 90, 65);
+    },
+
+    isLower: function (val) {
+        return this.isBetween(val, 122, 97);
     }
 };
 
-cam.init();
+glc.init();
