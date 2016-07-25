@@ -11,7 +11,7 @@ glc = {
     },
 
     letterStore: {
-        ' ': ' ',
+        ' ': [' '],
         'a': ['a', 'á', 'å', 'à', 'â', 'ä', 'ã', 'ā'],
         'b': ['b'],
         'c': ['c', 'ç', 'ć', 'č'],
@@ -70,13 +70,25 @@ glc = {
     init: function () {
         var $english = $('#english');
         var $camified = $('#camified');
+        var $level = $('#cam-level');
+        var $preserveSpaces = $('#preserve-spaces');
 
-        $('#camify').click(function () {
+        var doCam = function () {
             var raw = $english.val();
-            var output = glc.camify(raw);
+            var level = $level.val();
+
+            try {
+                level = 10 - parseInt(level);
+            }
+            catch (ex) {}
+
+            var output = glc.camify(raw, level, $preserveSpaces.is(':checked'));
 
             $camified.val(output);
-        });
+        };
+
+        $('#camify').click(doCam);
+        $level.on('input', doCam);
 
         $('#un-camify').click(function () {
             var raw = $camified.val();
@@ -86,7 +98,8 @@ glc = {
         });
     },
 
-    camify: function (raw) {
+    // TODO: handle consecutive letters (e.g. 'oo' in good) should produce the same output
+    camify: function (raw, level, preserveSpaces) {
         var text = raw.split('');
         var store = this.letterStore;
 
@@ -110,25 +123,25 @@ glc = {
                     current = current.toLowerCase();
             }
 
-            if (current === result[result.length - 1]) {
-                result.push(last);
-                continue;
-            }
-
             var val = current;
             if (store.hasOwnProperty(current)) {
-                val = glc.utils.sample(store[current]); // if we have a match in our letter store, choose a random value from the array
+                val = glc.utils.sample(store[current], level); // if we have a match in our letter store, choose a random value from the array
             }
 
             last = val;
             result.push(val);
         }
 
-        return result.filter(function (letter) {
-            return letter !== ' ';
-        }).join('');
+        var results = result;
+        if (!preserveSpaces) {
+            results = result.filter(function (letter) {
+                return letter !== ' ';
+            });
+        }
+        return results.join('');
     },
 
+    // TODO: add spaces on case change
     english: function (raw) {
         var text = raw.split('');
         var store = this.letterStore;
@@ -152,10 +165,18 @@ glc = {
 };
 
 glc.utils = {
-    sample: function (arr) {
-        if (!this.isArray(arr)) {  }
+    sample: function (arr, weight) {
+        if (weight === void 0) { weight = 0; }
+        if (!this.isArray(arr)) { /* yeah this should do something but the app works so MVP */ }
 
-        return arr[Math.floor(Math.random() * arr.length)];
+        var weightedArray = arr.slice(0); // copy the array
+        var preferredValue = arr[0];
+
+        for (var i = 0; i < weight; i++) {
+            weightedArray.push(preferredValue);
+        }
+
+        return weightedArray[Math.floor(Math.random() * weightedArray.length)];
     },
 
     isArray: function (arrLike) {

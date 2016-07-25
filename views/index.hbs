@@ -9,19 +9,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <p>Thanks for checking out the staging site. This is still very much in beta and there are some known issues:</p>
-                <ul>
-                    <li>The camometer doesn't do anything at this point but it's gonna be sweet.</li>
-                    <li>Camify then de-camify doesn't add the spaces you need, so re-camifying something has been de-camified will be all uppercase with no spaces.</li>
-                </ul>
-                <p>If you find another bug shoot me a text or if you stumbled across this some other way give me a shout on <a href="https://twitter.com/gramlikecam">twitter</a>.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
                 <h3 class="text-center">Adjust the Camometer</h3>
                 <div class="form-group">
-                    <input type="range" />
+                    <input type="range" id="cam-level" min="0" max="10" step="0.1" />
                 </div>
             </div>
         </div>
@@ -30,8 +20,17 @@
                 <div class="form-group">
                     <textarea id="english" class="form-control cam-text"></textarea>
                 </div>
-                <div class="form-group text-center">
-                    <button class="btn btn-block btn-default" id="camify">Camify</button>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label style="margin-top: 10px; margin-bottom: 10px;">
+                            <input type="checkbox" id="preserve-spaces" /> Keep spaces?
+                        </label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group text-center">
+                            <button class="btn btn-block btn-default" id="camify">Camify</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
