@@ -7,7 +7,7 @@
 
 body { font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; color: #DDDDDF; background-color: #028FD2  }
 a { color: #000000; }
-.jumbotron { color: #000000; background: #028FD2 url(/images/cam-superman.jpg) no-repeat; background-size: cover, 100%; margin-bottom: 0; text-shadow: 0 0 1px #028FD2; }
+.jumbotron { color: #000000;  margin-bottom: 0; text-shadow: 0 0 1px #028FD2; }
 
 .camifier { background-color: #028FD2;  color: #DDDDDF; }
 
